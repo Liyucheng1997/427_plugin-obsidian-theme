@@ -1,0 +1,88 @@
+/* 浮层玻璃：菜单、命令面板、弹窗、悬浮预览、通知、状态栏 */
+
+body.lg-glass :is(.menu, .suggestion-container, .prompt, .popover.hover-popover, .notice) {
+  background: var(--lg-float-bg) !important;
+  border: none !important;
+  border-radius: var(--lg-radius-m) !important;
+  box-shadow: var(--lg-inset), var(--lg-drop) !important;
+}
+body.lg-glass .modal {
+  background: var(--lg-float-solid) !important;
+  border: none !important;
+  border-radius: 20px !important;
+  box-shadow: var(--lg-inset), var(--lg-drop) !important;
+}
+/* 命令面板、快速切换：更通透，背后内容清楚可见，折射才看得出来 */
+body.lg-glass .modal.prompt { background: var(--lg-float-bg) !important; border-radius: 22px !important; }
+body.lg-glass .prompt :is(.prompt-input, .prompt-input-container input) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body.lg-glass .prompt .prompt-input-container { border-bottom: 1px solid var(--lg-hair) !important; }
+body.lg-glass .modal-bg { background: rgba(var(--lg-shadow-rgb), .08) !important; }
+body.lg-glass :is(.menu, .suggestion-container, .prompt, .modal, .popover.hover-popover) {
+  --background-primary: transparent;
+  --background-secondary: transparent;
+  --background-modifier-form-field: var(--lg-chip-bg);
+}
+body.lg-glass :is(.prompt, .modal) :is(.prompt-input-container, .modal-content, .vertical-tab-header, .vertical-tab-content-container, .vertical-tab-content) {
+  background: transparent !important;
+}
+body.lg-glass .popover.hover-popover .markdown-embed { background: transparent !important; }
+
+/* 菜单项、候选项：圆角胶囊 */
+body.lg-glass :is(.menu-item, .suggestion-item) { border-radius: 8px !important; }
+body.lg-glass :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) {
+  background: var(--lg-active-bg) !important;
+  color: var(--lg-ink) !important;
+}
+body.lg-glass .menu-separator { border-color: var(--lg-hair) !important; }
+
+/* 状态栏：平时只是一行淡字，鼠标移上去才浮起一颗玻璃胶囊，不遮挡右侧栏 */
+body.lg-glass .status-bar {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  padding: 2px 10px !important;
+  right: calc(var(--lg-gap) + 6px) !important;
+  bottom: calc(var(--lg-gap) + 2px) !important;
+  color: var(--lg-ink-muted) !important;
+  opacity: .72;
+  transition: opacity .2s var(--lg-ease), background-color .2s var(--lg-ease), box-shadow .2s var(--lg-ease);
+}
+body.lg-glass .status-bar:hover {
+  opacity: 1;
+  background: var(--lg-float-bg) !important;
+  box-shadow: var(--lg-inset), var(--lg-drop) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat));
+}
+
+/* —— 渐变高光边（rim）：上沿最亮、鼠标附近再亮一点 —— */
+body.lg-glass :is(.workspace-split.mod-sidedock:not(.is-sidedock-collapsed), .menu, .suggestion-container, .prompt, .modal, .popover.hover-popover)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  z-index: 50;
+  background: linear-gradient(170deg, var(--lg-rim-hi) 0%, transparent 38%, transparent 70%, var(--lg-rim-lo) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+body.lg-glass.lg-pointer :is(.workspace-split.mod-sidedock:not(.is-sidedock-collapsed), .menu, .suggestion-container, .prompt, .modal, .popover.hover-popover)::after {
+  background:
+    radial-gradient(180px circle at var(--lg-mx) var(--lg-my), var(--lg-rim-hi), transparent 70%) fixed,
+    linear-gradient(170deg, var(--lg-rim-hi) 0%, transparent 38%, transparent 70%, var(--lg-rim-lo) 100%);
+}
+
+/* —— 性能模式：去掉模糊和折射，提高不透明度 —— */
+body.lg-glass.lg-perf :is(.workspace-split.mod-sidedock, .status-bar, .menu, .suggestion-container, .modal, .prompt, .popover.hover-popover, .notice) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.lg-glass.lg-perf { --lg-pane-bg: var(--lg-float-solid) !important; --lg-float-bg: var(--lg-float-solid) !important; }

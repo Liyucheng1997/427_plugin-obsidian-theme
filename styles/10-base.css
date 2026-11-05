@@ -1,0 +1,39 @@
+/* 琉璃 Liquid Glass —— 基础：壁纸 + 让外层容器透明，露出壁纸 */
+
+body.lg-on {
+  --lg-radius-l: 16px;
+  --lg-radius-m: 12px;
+  --lg-radius-s: 8px;
+  --lg-gap: 8px;
+  --lg-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --lg-ease: cubic-bezier(.22, 1, .36, 1);
+  --lg-mx: -999px;
+  --lg-my: -999px;
+}
+
+/* 壁纸：多层径向柔光 */
+body.lg-glass.lg-wall {
+  background: var(--lg-wallpaper) !important;
+  background-attachment: fixed !important;
+}
+body.lg-glass:not(.lg-wall) {
+  background: var(--lg-bg) !important;
+}
+
+/* 外层容器全部透明 */
+body.lg-glass :is(.app-container, .horizontal-main-container, .workspace, .titlebar, .titlebar-inner,
+  .workspace-ribbon, .workspace-ribbon.mod-left, .workspace-ribbon.mod-primary,
+  .workspace-split.mod-root, .workspace-split.mod-root > .workspace-tabs,
+  .workspace-split.mod-root .workspace-tab-header-container,
+  .workspace-split.mod-root .workspace-tab-header-container-inner) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+body.lg-glass .workspace-ribbon::before { display: none !important; }
+body.lg-glass .workspace-ribbon { border-right: none !important; }
+body.lg-glass .workspace-ribbon .sidebar-toggle-button { background: transparent !important; }
+
+/* 壁纸上的文字用正文色，保证可读 */
+body.lg-glass .workspace-ribbon .clickable-icon,
+body.lg-glass .workspace-tab-header-container .clickable-icon { color: var(--lg-ink-muted); }

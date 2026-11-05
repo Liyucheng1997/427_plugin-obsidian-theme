@@ -1,0 +1,137 @@
+/* 白玻璃卡片（liyucheng.me 的质感）
+   · 页面 #fbfbfd，无渐变
+   · 卡片 = 半透明白 + blur(14–30px) saturate(1.5–1.8)
+            + 内白边 1px（border）+ 外灰边 1px（outline）+ 顶部内高光 + 负扩散大柔影
+   · 侧栏、正文、右栏三张卡片：同一种材质、同样 10px 间距、同样 18px 圆角，所以看起来是一套
+   只在 body.lg-crystal 下生效。 */
+
+body.lg-crystal {
+  --lg-gap: 10px;
+  --lg-card-r: 18px;
+  background: var(--lg-bg) !important;
+}
+
+/* 外层全部透明，露出 #fbfbfd */
+body.lg-crystal :is(.workspace, .workspace-ribbon, .workspace-split.mod-root, .workspace-split.mod-root > .workspace-tabs,
+  .workspace-split.mod-root .workspace-tab-header-container, .workspace-split.mod-root .workspace-tab-header-container-inner) {
+  background: transparent !important;
+  border: none !important;
+}
+body.lg-crystal .workspace-split.mod-root .workspace-tab-header-container { border-bottom: none !important; }
+
+/* —— 卡片材质（侧栏 / 正文 / 浮层共用） —— */
+body.lg-crystal :is(.workspace-split.mod-sidedock:not(.is-sidedock-collapsed),
+  .workspace-split.mod-root .workspace-tabs .workspace-tab-container) {
+  border: 1px solid var(--lg-card-edge) !important;
+  outline: 1px solid var(--lg-card-outline);
+  outline-offset: 0;
+  border-radius: var(--lg-card-r) !important;
+  overflow: hidden;
+}
+
+/* 侧栏卡片：更通透 */
+body.lg-crystal .workspace-split.mod-sidedock:not(.is-sidedock-collapsed) {
+  margin: var(--lg-gap) 5px var(--lg-gap) 1px;
+  height: calc(100% - var(--lg-gap) * 2) !important;
+  background: var(--lg-card-bg) !important;
+  box-shadow: var(--lg-card-shadow) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
+  backdrop-filter: blur(20px) saturate(1.6) !important;
+}
+body.lg-crystal .workspace-split.mod-right-split:not(.is-sidedock-collapsed) { margin: var(--lg-gap) var(--lg-gap) var(--lg-gap) 5px; }
+body.lg-crystal .workspace-split.mod-sidedock.is-sidedock-collapsed { background: transparent !important; box-shadow: none !important; }
+body.lg-crystal .workspace-split.mod-sidedock :is(.workspace-tab-header-container, .workspace-sidedock-vault-profile) { border-color: var(--lg-hair) !important; }
+
+/* 正文卡片：更实（.86），阴影更长更柔，像网站的大面板 */
+body.lg-crystal .workspace-split.mod-root .workspace-tabs .workspace-tab-container {
+  margin: 0 5px var(--lg-gap) 5px;
+  background: var(--lg-sheet-bg) !important;
+  box-shadow: var(--lg-sheet-shadow) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  backdrop-filter: blur(30px) saturate(1.8);
+}
+/* 只有一个编辑区、右侧栏收起时，正文卡片右边也留出间距 */
+body.lg-crystal .workspace-split.mod-root .workspace-tabs.mod-top-right-space .workspace-tab-container { margin-right: var(--lg-gap); }
+body.lg-crystal .workspace-split.mod-root :is(.workspace-leaf, .workspace-leaf-content, .view-header, .view-content) { background: transparent !important; }
+body.lg-crystal .workspace-split.mod-root .view-header { border-bottom: 1px solid var(--lg-hair) !important; }
+
+/* —— 标签页：选中的是一颗玻璃胶囊（网站顶部 Punte / EN 那种） —— */
+body.lg-crystal .workspace-split.mod-root .workspace-tab-header { border-radius: 99px !important; margin: 6px 0 4px; }
+body.lg-crystal .workspace-split.mod-root .workspace-tab-header.is-active {
+  background: var(--lg-chip-bg) !important;
+  border: 1px solid var(--lg-card-edge) !important;
+  outline: 1px solid var(--lg-card-outline);
+  box-shadow: var(--lg-chip-shadow) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  backdrop-filter: blur(20px) saturate(1.6);
+}
+body.lg-crystal .workspace-split.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title { color: var(--lg-ink) !important; font-weight: 500; }
+body.lg-crystal .workspace-split.mod-root .workspace-tab-header:not(.is-active):hover { background: var(--lg-hover-bg) !important; }
+body.lg-crystal .workspace-split.mod-sidedock .workspace-tab-header.is-active {
+  background: var(--lg-active-bg) !important;
+  box-shadow: 0 0 0 1px var(--lg-card-outline), 0 2px 8px -4px rgba(0,0,0,.15) !important;
+  border-radius: 9px !important;
+  color: var(--lg-ink) !important;
+}
+
+/* —— 文件树：选中 = 一块浮起来的白玻璃小卡（和网站卡片同一配方），悬停淡灰 —— */
+body.lg-crystal .nav-files-container :is(.nav-file-title, .nav-folder-title) { border-radius: 9px !important; }
+body.lg-crystal .nav-files-container .tree-item-self.is-active {
+  background: var(--lg-active-bg) !important;
+  color: var(--lg-ink) !important;
+  box-shadow: 0 0 0 1px var(--lg-card-outline), 0 2px 8px -4px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.6) !important;
+  font-weight: 500;
+}
+body.lg-crystal .nav-files-container .tree-item-self.is-active :is(.tree-item-inner, .nav-file-title-content, .nav-folder-title-content) { color: var(--lg-ink) !important; }
+
+/* —— 浮层：菜单、命令面板、弹窗、悬浮预览 —— */
+body.lg-crystal :is(.menu, .suggestion-container, .popover.hover-popover, .notice, .modal, .prompt) {
+  background: var(--lg-float-bg) !important;
+  border: 1px solid var(--lg-card-edge) !important;
+  outline: 1px solid var(--lg-card-outline);
+  box-shadow: var(--lg-pop) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(1.8) !important;
+  backdrop-filter: blur(30px) saturate(1.8) !important;
+}
+body.lg-crystal :is(.menu, .suggestion-container, .popover.hover-popover, .notice) { border-radius: 14px !important; }
+body.lg-crystal :is(.modal, .modal.prompt) { background: var(--lg-float-solid) !important; border-radius: 26px !important; }
+body.lg-crystal .modal-bg {
+  background: var(--lg-dim) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+}
+body.lg-crystal :is(.menu, .suggestion-container, .prompt, .modal, .popover.hover-popover)::after { display: none !important; }
+body.lg-crystal .menu { padding: 5px !important; }
+body.lg-crystal :is(.menu-item, .suggestion-item) { border-radius: 8px !important; }
+body.lg-crystal :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) {
+  background: rgba(0, 0, 0, .05) !important;
+  color: var(--lg-ink) !important;
+}
+body.theme-dark.lg-crystal :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) { background: rgba(255, 255, 255, .08) !important; }
+
+/* —— 按钮：玻璃胶囊；主按钮是正文黑胶囊（网站的“深色实心胶囊”），不用彩色 —— */
+body.lg-crystal button:not(.mod-cta):not(.clickable-icon) {
+  border-radius: 99px !important;
+  background: var(--lg-chip-bg) !important;
+  border: 1px solid var(--lg-card-edge) !important;
+  box-shadow: 0 0 0 1px var(--lg-card-outline), var(--lg-chip-shadow) !important;
+}
+body.lg-crystal button.mod-cta {
+  border-radius: 99px !important;
+  background: var(--lg-ink) !important;
+  color: var(--lg-base) !important;
+  box-shadow: 0 6px 18px -8px rgba(0,0,0,.35) !important;
+}
+
+/* 状态栏：一颗玻璃胶囊，和标签页同款 */
+body.lg-crystal .status-bar {
+  opacity: 1;
+  background: var(--lg-chip-bg) !important;
+  border: 1px solid var(--lg-card-edge) !important;
+  outline: 1px solid var(--lg-card-outline);
+  box-shadow: var(--lg-chip-shadow) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
+  backdrop-filter: blur(20px) saturate(1.6) !important;
+  right: calc(var(--lg-gap) + 14px) !important;
+  bottom: calc(var(--lg-gap) + 10px) !important;
+}

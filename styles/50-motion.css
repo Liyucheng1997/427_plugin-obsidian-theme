@@ -1,0 +1,33 @@
+/* 液体动效：浮层弹出、按钮回弹 */
+
+@keyframes lg-pop {
+  from { opacity: 0; transform: scale(.97) translateY(-2px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+body.lg-motion :is(.menu, .suggestion-container) { animation: lg-pop .32s var(--lg-spring) both; transform-origin: top left; }
+body.lg-motion :is(.modal, .prompt) { animation: lg-pop .36s var(--lg-spring) both; }
+
+body.lg-motion :is(button, .clickable-icon, .workspace-tab-header, .nav-file-title, .nav-folder-title, .menu-item) {
+  transition: transform .35s var(--lg-spring), background-color .2s var(--lg-ease), box-shadow .2s var(--lg-ease);
+}
+body.lg-motion :is(button, .clickable-icon, .workspace-tab-header):active { transform: scale(.94); }
+body.lg-motion :is(.nav-file-title, .nav-folder-title):active { transform: scale(.98); }
+
+/* 按钮：主按钮是一颗带高光的主色胶囊 */
+body.lg-glass button.mod-cta {
+  background: var(--lg-accent) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 8px -4px color-mix(in srgb, var(--lg-accent) 60%, transparent) !important;
+}
+body.lg-glass button:not(.mod-cta):not(.clickable-icon) {
+  border-radius: 999px !important;
+  background: var(--lg-chip-bg) !important;
+  box-shadow: 0 0 0 1px var(--lg-hair), 0 1px 2px rgba(var(--lg-shadow-rgb), .05) !important;
+}
+body.lg-glass .clickable-icon { border-radius: 9px; }
+body.lg-glass .clickable-icon:hover { background-color: var(--lg-hover-bg) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  body.lg-motion * { animation: none !important; transition: none !important; }
+}

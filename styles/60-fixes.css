@@ -1,0 +1,14 @@
+/* 原 icons_adjust.css：收紧文件树缩进 */
+body.lg-fixes .nav-files-container .tree-item-icon.collapse-icon { margin-left: -20px !important; }
+body.lg-fixes .nav-files-container .tree-item-inner { margin-left: 0 !important; }
+
+/* 关掉玻璃时，仍修复 Obsidian 1.14+ ribbon 顶角（.mod-left → .mod-primary 改名） */
+body.lg-fixes:not(.lg-glass) .workspace-ribbon.mod-primary::before,
+body.lg-fixes:not(.lg-glass) .workspace-ribbon.mod-left::before {
+  background-color: var(--ribbon-background) !important;
+  border-bottom: none !important;
+}
+body.lg-fixes:not(.lg-glass) .workspace-ribbon.mod-primary.is-collapsed::before { background-color: var(--ribbon-background-collapsed) !important; }
+body.lg-fixes:not(.lg-glass) .workspace-split.mod-primary-split :is(.workspace-tab-header-container, .workspace-tab-header-container-inner) {
+  background-color: var(--ribbon-background) !important;
+}

@@ -1,0 +1,75 @@
+/* 纯色材质（apple-minimal-design）：浅灰页面 + 白色正文 + #fbfbfd 侧栏，无渐变、无毛玻璃、无高光边。
+   只在 body.lg-solid 下生效，覆盖玻璃材质的同名规则。 */
+
+body.lg-solid { background: var(--lg-bg) !important; }
+
+/* 去掉所有毛玻璃和高光描边 */
+body.lg-solid :is(.workspace-split.mod-sidedock, .menu, .suggestion-container, .modal, .prompt, .popover.hover-popover, .notice, .status-bar, .status-bar:hover) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.lg-solid :is(.workspace-split.mod-sidedock, .menu, .suggestion-container, .prompt, .modal, .popover.hover-popover)::after { display: none !important; }
+
+/* 侧栏：macOS 风格，#fbfbfd + 一条细线，贴边 */
+body.lg-solid .workspace-split.mod-sidedock { box-shadow: none !important; }
+
+/* 编辑区：标签栏是浅灰“槽”，选中的标签是浮在槽上的白块；正文白底 */
+body.lg-solid .workspace-split.mod-root { background: var(--lg-sheet-bg) !important; }
+body.lg-solid .workspace-split.mod-root .workspace-tab-header-container { background: var(--lg-bg) !important; }
+body.lg-solid .workspace-split.mod-root .workspace-tab-header.is-active {
+  background: var(--lg-chip-bg) !important;
+  box-shadow: var(--lg-drop) !important;
+}
+body.lg-solid .workspace-split.mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title { color: var(--lg-ink) !important; font-weight: 500; }
+body.lg-solid .workspace-split.mod-sidedock .workspace-tab-header.is-active {
+  background: var(--lg-active-bg) !important;
+  color: var(--lg-active-ink) !important;
+}
+body.lg-solid .workspace-ribbon { background: var(--lg-bg) !important; }
+
+/* 浮层：白卡片 14px 圆角 + 弹出阴影；菜单项悬停整行主题蓝、白字（macOS） */
+body.lg-solid :is(.menu, .suggestion-container, .popover.hover-popover, .notice) {
+  background: var(--lg-float-bg) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--lg-pop) !important;
+}
+body.lg-solid .menu { padding: 5px !important; }
+body.lg-solid .menu-item { height: 32px; border-radius: 8px !important; }
+body.lg-solid :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) {
+  background: var(--lg-accent) !important;
+  color: #fff !important;
+}
+body.lg-solid :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) :is(.menu-item-icon, .suggestion-hotkey, .suggestion-note, kbd) { color: rgba(255,255,255,.85) !important; }
+body.lg-solid .modal, body.lg-solid .modal.prompt {
+  background: var(--lg-float-solid) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--lg-pop) !important;
+}
+body.lg-solid .modal-bg {
+  background: rgba(0, 0, 0, .3) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+/* 按钮：主要 = 蓝色胶囊；次要 = 灰底胶囊；都不要阴影 */
+body.lg-solid button.mod-cta { box-shadow: none !important; }
+body.lg-solid button:not(.mod-cta):not(.clickable-icon) {
+  background: var(--lg-fill) !important;
+  box-shadow: none !important;
+}
+body.lg-solid button:not(.mod-cta):not(.clickable-icon):hover { filter: brightness(.97); }
+
+/* 文件树：悬停淡灰，选中浅蓝底 + 蓝字 */
+body.lg-solid .nav-files-container .tree-item-self.is-active {
+  background: var(--lg-active-bg) !important;
+  color: var(--lg-active-ink) !important;
+}
+body.lg-solid .nav-files-container .tree-item-self.is-active :is(.tree-item-inner, .nav-file-title-content, .nav-folder-title-content) { color: var(--lg-active-ink) !important; }
+
+/* —— 字体（apple-minimal）：系统字体，标题 600 + 字距收紧 —— */
+body.lg-apple-type { font-family: var(--lg-font); -webkit-font-smoothing: antialiased; }
+body.lg-apple-type :is(.markdown-rendered :is(h1, h2, h3, h4, h5, h6), .cm-s-obsidian .cm-header, .inline-title) {
+  font-weight: 600 !important;
+  letter-spacing: -0.02em;
+}
+body.lg-apple-type .inline-title { letter-spacing: -0.03em; }

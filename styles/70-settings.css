@@ -1,0 +1,15 @@
+/* 设置页 */
+.lg-settings h2 { margin-top: 1.6em; }
+.lg-preset-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.lg-preset-card {
+  padding: 12px 14px; border-radius: 16px; cursor: pointer;
+  background: var(--lg-chip-bg, var(--background-secondary));
+  box-shadow: var(--lg-inset, none), 0 0 0 1px var(--background-modifier-border);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.lg-preset-card:hover { transform: translateY(-2px); }
+.lg-preset-card.is-active { box-shadow: var(--lg-inset, none), 0 0 0 2px var(--interactive-accent); }
+.lg-preset-dots { display: flex; gap: 4px; margin-bottom: 8px; }
+.lg-preset-dots span { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 0 0 1px rgba(0,0,0,.06); }
+.lg-preset-name { font-weight: 600; }
+.lg-preset-desc { font-size: .82em; color: var(--text-muted); margin-top: 2px; }

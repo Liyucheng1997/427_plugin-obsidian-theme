@@ -1,0 +1,84 @@
+/* 布局：编辑区与窗口连成一整块纸面；只有左右侧栏是内嵌的玻璃面板（类似 macOS Finder 侧栏）。 */
+
+/* —— 通用玻璃材质（侧栏、浮层、状态栏 hover） —— */
+body.lg-glass .workspace-split.mod-sidedock,
+body.lg-glass :is(.menu, .suggestion-container, .modal, .prompt, .popover.hover-popover, .notice) {
+  -webkit-backdrop-filter: var(--lg-backdrop, blur(var(--lg-blur)) saturate(var(--lg-sat)));
+  backdrop-filter: var(--lg-backdrop, blur(var(--lg-blur)) saturate(var(--lg-sat)));
+}
+
+/* —— 编辑区：整块纸面，标签栏和正文同一个面，不再单独做卡片 —— */
+body.lg-glass .workspace-split.mod-root {
+  background: var(--lg-sheet-bg) !important;
+}
+body.lg-glass .workspace-split.mod-root :is(.workspace-tabs, .workspace-tab-header-container, .workspace-tab-header-container-inner,
+  .workspace-tab-container, .workspace-leaf, .workspace-leaf-content, .view-header, .view-content,
+  .markdown-source-view, .markdown-reading-view, .markdown-preview-view, .cm-editor, .cm-scroller, .cm-gutters, .empty-state) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+body.lg-glass .workspace-split.mod-root .workspace-leaf-content {
+  --background-primary: transparent;
+  --background-primary-bg-4-bt: transparent;
+}
+body.lg-glass .workspace-split.mod-root .workspace-tab-header-container { border-bottom: 1px solid var(--lg-hair) !important; }
+body.lg-glass .workspace-split.mod-root .view-header { border-bottom: none !important; }
+/* 分屏时各组之间一条细线 */
+body.lg-glass .workspace-split.mod-root .workspace-leaf-resize-handle { border-color: var(--lg-hair) !important; }
+
+/* —— 侧栏：内嵌玻璃面板 —— */
+body.lg-glass .workspace-split.mod-sidedock {
+  background: var(--lg-pane-bg) !important;
+  border: none !important;
+  /* 侧栏里用到的背景变量改成透明，让玻璃透出来 */
+  --background-primary: transparent;
+  --background-secondary: transparent;
+  --background-secondary-alt: transparent;
+  --background-primary-alt: var(--lg-chip-bg);
+  --background-modifier-form-field: var(--lg-chip-bg);
+  --tab-container-background: transparent;
+}
+body.lg-glass .workspace-split.mod-sidedock :is(.workspace-tabs, .workspace-tab-header-container,
+  .workspace-tab-header-container-inner, .workspace-tab-container, .workspace-leaf, .workspace-leaf-content,
+  .view-content, .nav-header, .nav-files-container, .workspace-sidedock-vault-profile, .search-input-container) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+body.lg-glass .workspace-split.mod-sidedock .workspace-sidedock-vault-profile { border-top: 1px solid var(--lg-hair) !important; }
+body.lg-glass .workspace-split.mod-sidedock .workspace-tab-header-container { border-bottom: 1px solid var(--lg-hair) !important; }
+
+/* 不悬浮时：侧栏贴边，只用一条细线和编辑区分开 */
+body.lg-glass:not(.lg-float) .workspace-split.mod-left-split { border-right: 1px solid var(--lg-hair) !important; }
+body.lg-glass:not(.lg-float) .workspace-split.mod-right-split { border-left: 1px solid var(--lg-hair) !important; }
+
+/* 悬浮时：四周留 8px，圆角 + 很轻的阴影 */
+body.lg-glass.lg-float .workspace-split.mod-sidedock:not(.is-sidedock-collapsed) {
+  margin: var(--lg-gap) 6px var(--lg-gap) 0;
+  height: calc(100% - var(--lg-gap) * 2) !important;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--lg-inset), var(--lg-drop) !important;
+}
+body.lg-glass.lg-float .workspace-split.mod-right-split:not(.is-sidedock-collapsed) { margin: var(--lg-gap) var(--lg-gap) var(--lg-gap) 6px; }
+body.lg-glass.lg-float .workspace-split.mod-sidedock.is-sidedock-collapsed { box-shadow: none !important; background: transparent !important; }
+/* 悬浮时编辑区的左右也和侧栏一样圆过去，整体是“纸面 + 两块嵌在上面的玻璃” */
+body.lg-glass.lg-float .workspace-split.mod-root { background: transparent !important; }
+body.lg-glass.lg-float .workspace { background: var(--lg-sheet-bg) !important; }
+
+/* —— 标签页 —— */
+body.lg-glass .workspace-tab-header::before,
+body.lg-glass .workspace-tab-header::after { display: none !important; }
+body.lg-glass .workspace-tab-header,
+body.lg-glass .workspace-tab-header .workspace-tab-header-inner { background: transparent !important; border: none !important; box-shadow: none !important; }
+body.lg-glass .workspace-split.mod-root .workspace-tab-header { border-radius: 9px !important; margin-top: 5px; margin-bottom: 4px; }
+body.lg-glass .workspace-split.mod-root .workspace-tab-header.is-active {
+  background: var(--lg-chip-bg) !important;
+  box-shadow: 0 0 0 1px var(--lg-hair), 0 1px 2px rgba(var(--lg-shadow-rgb), .06) !important;
+}
+body.lg-glass .workspace-split.mod-root .workspace-tab-header:not(.is-active):hover { background: var(--lg-hover-bg) !important; }
+body.lg-glass .workspace-split.mod-sidedock .workspace-tab-header.is-active {
+  background: var(--lg-hover-bg) !important;
+  border-radius: 8px !important;
+  color: var(--lg-ink) !important;
+}

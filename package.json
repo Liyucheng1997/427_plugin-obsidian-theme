@@ -1,0 +1,20 @@
+{
+  "name": "liuli-liquid-glass",
+  "version": "0.1.0",
+  "description": "琉璃 Liquid Glass — 液态玻璃外观 + 文件夹颜色 + 笔记计数，一体化 Obsidian 插件",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node esbuild.config.mjs watch",
+    "build": "tsc --noEmit && node esbuild.config.mjs production",
+    "deploy": "npm run build && node scripts/deploy.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "obsidian": "^1.14.4",
+    "tslib": "^2.9.1",
+    "typescript": "^7.0.2"
+  }
+}

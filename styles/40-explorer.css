@@ -1,0 +1,42 @@
+/* 文件树：圆角条目、选中态、笔记计数胶囊 */
+
+body.lg-glass .nav-files-container :is(.nav-file-title, .nav-folder-title) {
+  border-radius: 8px !important;
+}
+body.lg-glass .nav-files-container :is(.nav-file-title, .nav-folder-title):hover {
+  background-color: var(--lg-hover-bg);
+}
+body.lg-glass .nav-files-container .tree-item-self.is-active {
+  background: var(--lg-active-bg) !important;
+  color: var(--lg-ink) !important;
+}
+
+/* 笔记计数：只是一个灰色数字（tabular-nums），不加底色——apple-minimal 里带底的徽标只留给“待处理”状态 */
+body.lg-on.lg-count .nav-folder-title::after {
+  margin-left: auto;
+  padding-left: 8px;
+  margin-right: 4px;
+  font-size: .78em;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--text-faint, var(--lg-ink-muted));
+  opacity: .85;
+  background: none;
+  transition: opacity .2s var(--lg-ease);
+  flex-shrink: 0;
+}
+/* 可选：数字跟随文件夹颜色（只染字，不加底） */
+body.lg-on.lg-count.lg-count-tint .nav-folder-title::after {
+  color: color-mix(in srgb, var(--lg-fc, var(--lg-ink-muted)) 70%, var(--lg-ink-muted));
+}
+body.lg-on.lg-count .nav-folder-title { display: flex; align-items: center; }
+body.lg-on.lg-count .nav-folder-title-content { flex-grow: 1; }
+
+/* 色板圆点（右键菜单、选色弹窗） */
+.lg-swatch { width: 14px; height: 14px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.6); }
+.lg-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.lg-swatch-btn { height: 56px; border-radius: 14px; background: var(--c) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 4px 12px -4px rgba(0,0,0,.2) !important; color: #2b2421 !important; }
+
+/* Blue Topaz 给子文件夹图标加了 hue-rotate(160deg)，主题色一换就转成不相干的颜色（青→粉）。关掉，让图标就是主题色。 */
+body.lg-on .nav-folder-children .nav-folder-title-content::before { filter: none !important; opacity: .75; }
