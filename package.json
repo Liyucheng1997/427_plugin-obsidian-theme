@@ -1,6 +1,6 @@
 {
   "name": "liuli-liquid-glass",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "琉璃 Liquid Glass — 液态玻璃外观 + 文件夹颜色 + 笔记计数，一体化 Obsidian 插件",
   "main": "main.js",
   "type": "module",

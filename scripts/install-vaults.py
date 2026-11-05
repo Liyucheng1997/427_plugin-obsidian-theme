@@ -1,6 +1,6 @@
 # 把琉璃装进四个库并写好各库配置（一次性迁移脚本，可重复执行）
 #  - 复制 main.js / manifest.json / styles.css
-#  - 写 data.json：档案、白玻璃材质、圆点文件夹色、按用途分组的文件夹颜色、沿用旧 Note Count 的计数规则
+#  - 写 data.json：档案、白玻璃材质、主题色文件夹图标（多色标签默认关闭，颜色仍按用途写好）、沿用旧 Note Count 的计数规则
 #  - 启用本插件，停用 File Color / Note Count 和旧的 CSS 片段（改之前先备份到插件目录）
 import json, shutil, time
 from pathlib import Path
@@ -75,7 +75,7 @@ for vault, (preset, colors) in VAULTS.items():
         'preset': preset,
         'glass': {**GLASS, **{k: v for k, v in data.get('glass', {}).items() if k not in ('material',)}, 'material': 'crystal'},
         'folderColor': {
-            'enabled': True, 'style': 'dot', 'mixLight': 42, 'mixDark': 26, 'cascade': False,
+            'enabled': False, 'style': 'dot', 'mixLight': 42, 'mixDark': 26, 'cascade': False,
             'palette': TAGS,
             'fileColors': [{'path': k, 'color': v} for k, v in colors.items() if (ROOT / vault / k).is_dir()],
         },

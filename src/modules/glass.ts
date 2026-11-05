@@ -10,7 +10,7 @@ const FLOATING = ['.menu', '.suggestion-container', '.modal', '.prompt', '.popov
 // 大面积的框架玻璃
 const PANES = ['.workspace-split.mod-sidedock:not(.is-sidedock-collapsed)'];
 
-const BODY_CLASSES = ['lg-on', 'lg-vars', 'lg-glass', 'lg-solid', 'lg-crystal', 'lg-apple-type', 'lg-float', 'lg-wall', 'lg-perf', 'lg-motion', 'lg-pointer', 'lg-fixes', 'lg-count', 'lg-count-tint'];
+const BODY_CLASSES = ['lg-on', 'lg-vars', 'lg-glass', 'lg-solid', 'lg-crystal', 'lg-apple-type', 'lg-float', 'lg-wall', 'lg-perf', 'lg-motion', 'lg-pointer', 'lg-fixes', 'lg-count', 'lg-count-tint', 'lg-paper'];
 
 export class GlassModule {
   private varsEl: HTMLStyleElement | null = null;
@@ -61,6 +61,7 @@ export class GlassModule {
     on('lg-fixes', s.fixes.enabled);
     on('lg-count', s.noteCount.enabled);
     on('lg-count-tint', s.noteCount.enabled && s.noteCount.tinted);
+    on('lg-paper', s.reading.paper !== 'none');
 
     const wantRefract = g.enabled && !solid && !crystal && !g.performance && g.refract !== 'off';
     if (!wantRefract) { this.engine?.destroy(); this.engine = null; return; }

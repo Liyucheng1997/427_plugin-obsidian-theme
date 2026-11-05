@@ -1,0 +1,11 @@
+/* 阅读底色：只染 Markdown 笔记的正文区（含顶部标题栏），三种材质通用。
+   颜色和墨色由 profile.ts 按明暗模式写进 --lg-paper / --lg-paper-ink。 */
+body.lg-paper .workspace-split.mod-root .workspace-leaf-content[data-type="markdown"] {
+  background: var(--lg-paper) !important;
+  --background-primary: var(--lg-paper);
+  --text-normal: var(--lg-paper-ink);
+  --lg-ink: var(--lg-paper-ink);
+}
+body.lg-paper .workspace-split.mod-root .workspace-leaf-content[data-type="markdown"] :is(.view-content, .markdown-source-view, .markdown-reading-view, .markdown-preview-view, .cm-scroller, .cm-editor) {
+  background: transparent !important;
+}

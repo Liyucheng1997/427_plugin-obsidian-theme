@@ -1,11 +1,12 @@
 import { PaletteColor, DEFAULT_PRESET } from './core/presets';
+import type { PaperId } from './core/paper';
 
 export type RefractScope = 'off' | 'floating' | 'all';
 export type Material = 'glass' | 'solid' | 'crystal';
 export type FolderStyle = 'dot' | 'mark' | 'tint' | 'tintbar' | 'bar' | 'chip';
 
 /** 设置结构版本。视觉默认值大改时 +1，老配置里的外观参数会被重置为新默认值（色板和文件夹颜色保留）。 */
-export const SETTINGS_VERSION = 2;
+export const SETTINGS_VERSION = 3;
 
 export interface FileColorEntry { path: string; color: string }
 
@@ -45,6 +46,8 @@ export interface LiuliSettings {
     blacklist: boolean;        // true: filterList 为排除列表
     tinted: boolean;           // 计数胶囊跟随文件夹颜色
   };
+  /** 阅读底色：只染笔记正文区 */
+  reading: { paper: PaperId };
   fixes: { enabled: boolean };
   migrated: boolean;
   /** Style Settings 的快照（卸载 Style Settings 后由琉璃应用） */
@@ -76,7 +79,7 @@ export const DEFAULT_SETTINGS: LiuliSettings = {
     performance: false,
   },
   folderColor: {
-    enabled: true,
+    enabled: false,
     style: 'dot',
     mixLight: 42,
     mixDark: 26,
@@ -91,6 +94,7 @@ export const DEFAULT_SETTINGS: LiuliSettings = {
     blacklist: false,
     tinted: false,
   },
+  reading: { paper: 'none' },
   fixes: { enabled: true },
   migrated: false,
   btFreeze: null,
@@ -102,19 +106,25 @@ export const DEFAULT_SETTINGS: LiuliSettings = {
 export function mergeSettings(saved: any): LiuliSettings {
   const d = structuredClone(DEFAULT_SETTINGS);
   if (!saved) return d;
-  if ((saved.version ?? 1) < SETTINGS_VERSION) {
+  const ver = saved.version ?? 1;
+  if (ver < 2) {
     // 外观默认值改过：丢掉旧的外观参数，保留色板、文件夹颜色、计数规则等数据
     delete saved.glass;
     if (saved.folderColor) { delete saved.folderColor.mixLight; delete saved.folderColor.mixDark; }
     if (saved.noteCount) delete saved.noteCount.tinted;
-    saved.version = SETTINGS_VERSION;
   }
+  if (ver < 3 && saved.folderColor) {
+    // v3：文件夹默认统一用主题色图标，关掉多色标签（已设的颜色保留，重新打开开关即可恢复）
+    saved.folderColor.enabled = false;
+  }
+  saved.version = SETTINGS_VERSION;
   return {
     ...d,
     ...saved,
     glass: { ...d.glass, ...(saved.glass ?? {}) },
     folderColor: { ...d.folderColor, ...(saved.folderColor ?? {}) },
     noteCount: { ...d.noteCount, ...(saved.noteCount ?? {}) },
+    reading: { ...d.reading, ...(saved.reading ?? {}) },
     fixes: { ...d.fixes, ...(saved.fixes ?? {}) },
     update: { ...d.update, ...(saved.update ?? {}) },
   };

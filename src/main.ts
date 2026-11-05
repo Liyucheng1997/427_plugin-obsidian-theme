@@ -8,6 +8,7 @@ import { UpdaterModule } from './modules/updater';
 import { importLegacy, retireLegacy } from './core/migrate';
 import { LiuliSettingTab } from './settingTab';
 import { PRESETS, VAULT_PRESET, DEFAULT_PRESET } from './core/presets';
+import { PAPERS } from './core/paper';
 
 export default class LiuliPlugin extends Plugin {
   settings!: LiuliSettings;
@@ -52,6 +53,24 @@ export default class LiuliPlugin extends Plugin {
       name: '开关液态玻璃效果',
       callback: async () => { this.settings.glass.enabled = !this.settings.glass.enabled; await this.applyAll(); },
     });
+    this.addCommand({
+      id: 'cycle-paper',
+      name: '切换阅读底色',
+      callback: async () => {
+        const i = PAPERS.findIndex(x => x.id === this.settings.reading.paper);
+        const next = PAPERS[(i + 1) % PAPERS.length];
+        this.settings.reading.paper = next.id;
+        await this.applyAll();
+        new Notice(`阅读底色：${next.name}`, 1500);
+      },
+    });
+    for (const paper of PAPERS) {
+      this.addCommand({
+        id: `paper-${paper.id}`,
+        name: `阅读底色：${paper.name}`,
+        callback: async () => { this.settings.reading.paper = paper.id; await this.applyAll(); },
+      });
+    }
     this.addCommand({
       id: 'check-update',
       name: '检查更新',

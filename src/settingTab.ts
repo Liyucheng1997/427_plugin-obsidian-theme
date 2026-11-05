@@ -3,6 +3,7 @@ import type LiuliPlugin from './main';
 import { PRESETS } from './core/presets';
 import { importLegacy } from './core/migrate';
 import type { RefractScope } from './settings';
+import { PAPERS } from './core/paper';
 
 export class LiuliSettingTab extends PluginSettingTab {
   constructor(app: App, private plugin: LiuliPlugin) { super(app, plugin); }
@@ -27,6 +28,20 @@ export class LiuliSettingTab extends PluginSettingTab {
       card.createDiv({ cls: 'lg-preset-name', text: preset.name });
       card.createDiv({ cls: 'lg-preset-desc', text: preset.desc });
       card.onclick = async () => { s.preset = preset.id; if (preset.material) g.material = preset.material; await apply(); this.display(); };
+    }
+
+    // —— 阅读底色 ——
+    el.createEl('h2', { text: '阅读底色' });
+    el.createDiv({ cls: 'setting-item-description', text: '只改笔记正文区的底色，白底看久了费眼时换一个。命令面板里搜“阅读底色”可以随时切换。' });
+    const dark = document.body.hasClass('theme-dark');
+    const papers = el.createDiv({ cls: 'lg-paper-row' });
+    for (const paper of PAPERS) {
+      const c = paper[dark ? 'dark' : 'light'];
+      const card = papers.createDiv({ cls: 'lg-paper-card' + (s.reading.paper === paper.id ? ' is-active' : '') });
+      card.setAttr('style', `--bg:${c.bg};--ink:${c.ink || 'var(--lg-ink)'}`);
+      card.createDiv({ cls: 'lg-paper-sample', text: '文' });
+      card.createDiv({ cls: 'lg-paper-name', text: paper.name });
+      card.onclick = async () => { s.reading.paper = paper.id; await apply(); this.display(); };
     }
 
     // —— 液态玻璃 ——
@@ -61,10 +76,10 @@ export class LiuliSettingTab extends PluginSettingTab {
     // —— 文件夹颜色 ——
     el.createEl('h2', { text: '文件夹颜色' });
     const fc = s.folderColor;
-    new Setting(el).setName('启用文件夹颜色').setDesc('在文件列表里右键文件夹 →「设置颜色」。')
+    new Setting(el).setName('启用文件夹颜色').setDesc('关闭时所有文件夹图标统一用主题色。打开后可在文件列表里右键文件夹 →「设置颜色」单独上色。')
       .addToggle(t => t.setValue(fc.enabled).onChange(async v => { fc.enabled = v; await apply(); }));
     new Setting(el).setName('配色风格')
-      .addDropdown(d => d.addOptions({ dot: '圆点（推荐）', mark: '胶囊标记', tint: '柔和底色', tintbar: '底色 + 色条', bar: '左侧色条', chip: '彩色玻璃块' })
+      .addDropdown(d => d.addOptions({ dot: '彩色文件夹图标（推荐）', mark: '胶囊标记', tint: '柔和底色', tintbar: '底色 + 色条', bar: '左侧色条', chip: '彩色玻璃块' })
         .setValue(fc.style).onChange(async v => { fc.style = v as any; await apply(); }));
     slider(el, '浅色模式染色强度', '', 10, 100, 1, fc.mixLight, v => { fc.mixLight = v; }, apply);
     slider(el, '深色模式染色强度', '', 10, 100, 1, fc.mixDark, v => { fc.mixDark = v; }, apply);

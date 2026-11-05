@@ -4,6 +4,7 @@
 import { hexToRgb, rgbToHsl, rgbTriple } from './color';
 import { Preset, Tokens } from './presets';
 import { LiuliSettings } from '../settings';
+import { paperById } from './paper';
 
 function wallpaper(t: Tokens): string {
   const layers = t.wallpaper.blobs.map(b =>
@@ -170,6 +171,9 @@ function block(p: Preset, t: Tokens, s: LiuliSettings, dark: boolean): string {
     '--h4-weight': '600', '--h5-weight': '600', '--h6-weight': '600',
     '--lg-danger': dark ? '#FF453A' : '#E0443E',
   });
+  const paper = paperById(s.reading.paper)[dark ? 'dark' : 'light'];
+  v['--lg-paper'] = paper.bg;
+  v['--lg-paper-ink'] = paper.ink || t.ink;
   t.headings.forEach((c, i) => {
     v[`--h${i + 1}-color`] = c;
     v[`--print-h${i + 1}-color`] = c;

@@ -38,5 +38,25 @@ body.lg-on.lg-count .nav-folder-title-content { flex-grow: 1; }
 .lg-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
 .lg-swatch-btn { height: 56px; border-radius: 14px; background: var(--c) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 4px 12px -4px rgba(0,0,0,.2) !important; color: #2b2421 !important; }
 
-/* Blue Topaz 给子文件夹图标加了 hue-rotate(160deg)，主题色一换就转成不相干的颜色（青→粉）。关掉，让图标就是主题色。 */
-body.lg-on .nav-folder-children .nav-folder-title-content::before { filter: none !important; opacity: .75; }
+/* 文件夹图标：所有文件夹（含第一层）统一画一个主题色的线框文件夹，展开 / 折叠两种形状。
+   自己用 mask 画，不依赖 Blue Topaz 的 folder-icons 开关，也顺带去掉它的 hue-rotate(160deg)（主题色一换就转成不相干的颜色）。
+   启用“文件夹颜色”后，单独上色的文件夹只改 background（见 folderColor.ts）。 */
+body.lg-on .nav-files-container .nav-folder-title-content::before {
+  content: "" !important;
+  display: inline-block !important;
+  position: relative !important;
+  top: 2px !important;
+  width: 0.95rem !important;
+  height: 0.95rem !important;
+  margin: 0 5px 0 -1px !important;
+  border-radius: 0 !important;
+  background: var(--lg-accent, var(--interactive-accent)) !important;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.165 19.551c.186.28.499.449.835.449h15c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 11h-1V8c0-1.103-.897-2-2-2h-6.655L8.789 4H4c-1.103 0-2 .897-2 2v13h.007a1 1 0 0 0 .158.551zM18 8v3H6c-.4 0-.762.238-.919.606L4 14.129V8h14z"></path></svg>') center / contain no-repeat !important;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.165 19.551c.186.28.499.449.835.449h15c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 11h-1V8c0-1.103-.897-2-2-2h-6.655L8.789 4H4c-1.103 0-2 .897-2 2v13h.007a1 1 0 0 0 .158.551zM18 8v3H6c-.4 0-.762.238-.919.606L4 14.129V8h14z"></path></svg>') center / contain no-repeat !important;
+  filter: none !important;
+  opacity: .85 !important;
+}
+body.lg-on .nav-files-container .nav-folder.is-collapsed > .nav-folder-title .nav-folder-title-content::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 5h-8.586L9.707 3.293A.997.997 0 0 0 9 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"></path></svg>') !important;
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 5h-8.586L9.707 3.293A.997.997 0 0 0 9 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zM4 19V7h16l.002 12H4z"></path></svg>') !important;
+}

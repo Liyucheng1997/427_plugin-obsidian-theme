@@ -12,8 +12,8 @@ const BASE = `  --lg-fc-strength: calc(var(--lg-fc-mix) * var(--lg-fc-mix-scale,
   border-radius: 8px !important;
   color: var(--lg-ink) !important;`;
 const STYLES: Record<FolderStyle, { normal: string; hover: string; before?: string; dot?: string }> = {
-  // 圆点（apple-minimal 推荐）：行本身完全不染色，只在名字前放一颗 8px 纯色圆点，像 Finder 的标签。
-  // 圆点占的是 Blue Topaz 文件夹图标的位置，所以和左边的展开箭头之间有正常间距。
+  // 彩色文件夹图标（推荐，设置里的 id 仍叫 dot）：行本身完全不染色，只把名字前的文件夹图标（由 40-explorer.css 统一画）染成标签色。
+  // 文件没有文件夹图标，被单独上色的文件仍是一颗 8px 圆点。
   dot: {
     normal: `${BASE}
   background: transparent !important;
@@ -140,7 +140,10 @@ export class FolderColorModule {
       ? `body.lg-on .nav-files-container :is(${list}) {\n${st.normal}\n}\n` +
         `body.lg-on .nav-files-container :is(${list}):hover {\n${st.hover}\n}\n` +
         (st.before ? `body.lg-on .nav-files-container :is(${list})::before {\n${st.before}\n}\n` : '') +
-        (st.dot ? `body.lg-on .nav-files-container :is(${list}) :is(.nav-folder-title-content, .nav-file-title-content)::before {\n${st.dot}\n}\n` : '') +
+        (st.dot
+          ? `body.lg-on .nav-files-container :is(${list}) .nav-file-title-content::before {\n${st.dot}\n}\n` +
+            `body.lg-on .nav-files-container :is(${list}) .nav-folder-title-content::before { background: var(--lg-fc) !important; opacity: .9 !important; }\n`
+          : '') +
         `body.lg-on .nav-files-container :is(${list}) :is(.nav-folder-title-content, .nav-file-title-content, .tree-item-inner) { color: var(--lg-ink) !important; }\n` +
         subRules.join('\n') + '\n' + varRules.join('\n')
       : '';
