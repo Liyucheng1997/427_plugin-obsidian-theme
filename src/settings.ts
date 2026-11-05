@@ -51,6 +51,8 @@ export interface LiuliSettings {
   btFreeze: { classes: string[]; css: string; at: string } | null;
   /** 下次启动时要停用的插件 id（安装脚本写入，处理后清空） */
   retirePlugins: string[];
+  /** 自动更新（从 GitHub Releases） */
+  update: { auto: boolean; lastCheck: number };
 }
 
 export const DEFAULT_SETTINGS: LiuliSettings = {
@@ -93,6 +95,7 @@ export const DEFAULT_SETTINGS: LiuliSettings = {
   migrated: false,
   btFreeze: null,
   retirePlugins: [],
+  update: { auto: true, lastCheck: 0 },
 };
 
 /** 深合并：保证老版本 data.json 缺字段时用默认值补齐 */
@@ -113,5 +116,6 @@ export function mergeSettings(saved: any): LiuliSettings {
     folderColor: { ...d.folderColor, ...(saved.folderColor ?? {}) },
     noteCount: { ...d.noteCount, ...(saved.noteCount ?? {}) },
     fixes: { ...d.fixes, ...(saved.fixes ?? {}) },
+    update: { ...d.update, ...(saved.update ?? {}) },
   };
 }

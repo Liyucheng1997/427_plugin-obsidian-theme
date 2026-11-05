@@ -4,6 +4,7 @@ import { GlassModule } from './modules/glass';
 import { FolderColorModule } from './modules/folderColor';
 import { NoteCountModule } from './modules/noteCount';
 import { ThemeFreezeModule } from './modules/themeFreeze';
+import { UpdaterModule } from './modules/updater';
 import { importLegacy, retireLegacy } from './core/migrate';
 import { LiuliSettingTab } from './settingTab';
 import { PRESETS, VAULT_PRESET, DEFAULT_PRESET } from './core/presets';
@@ -14,6 +15,7 @@ export default class LiuliPlugin extends Plugin {
   folderColor!: FolderColorModule;
   noteCount!: NoteCountModule;
   themeFreeze!: ThemeFreezeModule;
+  updater!: UpdaterModule;
 
   async onload() {
     const saved = await this.loadData();
@@ -38,6 +40,8 @@ export default class LiuliPlugin extends Plugin {
     this.noteCount = new NoteCountModule(this);
     this.themeFreeze = new ThemeFreezeModule(this);
     this.themeFreeze.load();
+    this.updater = new UpdaterModule(this);
+    this.updater.load();
     this.glass.load();
     this.folderColor.load();
     this.noteCount.load();
@@ -47,6 +51,11 @@ export default class LiuliPlugin extends Plugin {
       id: 'toggle-glass',
       name: '开关液态玻璃效果',
       callback: async () => { this.settings.glass.enabled = !this.settings.glass.enabled; await this.applyAll(); },
+    });
+    this.addCommand({
+      id: 'check-update',
+      name: '检查更新',
+      callback: () => this.updater.check(true),
     });
     this.addCommand({
       id: 'freeze-style-settings',
@@ -61,6 +70,7 @@ export default class LiuliPlugin extends Plugin {
   }
 
   onunload() {
+    this.updater?.unload();
     this.themeFreeze?.unload();
     this.glass?.unload();
     this.folderColor?.unload();

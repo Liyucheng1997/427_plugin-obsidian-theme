@@ -117,6 +117,14 @@ export class LiuliSettingTab extends PluginSettingTab {
     new Setting(el).setName('把上面的列表当作排除列表')
       .addToggle(t => t.setValue(nc.blacklist).onChange(async v => { nc.blacklist = v; await apply(); }));
 
+    // —— 更新 ——
+    el.createEl('h2', { text: '更新' });
+    new Setting(el).setName(`当前版本 ${p.manifest.version}`)
+      .setDesc('从 GitHub Releases 下载新版本，下载完点通知里的“立即生效”即可，不用重启。')
+      .addButton(b => b.setButtonText('立即检查').onClick(() => p.updater.check(true)));
+    new Setting(el).setName('自动检查更新').setDesc('启动后每 6 小时最多检查一次。')
+      .addToggle(t => t.setValue(s.update.auto).onChange(async v => { s.update.auto = v; await p.saveSettings(); }));
+
     // —— 兼容与迁移 ——
     el.createEl('h2', { text: '兼容与迁移' });
     new Setting(el).setName('界面修正').setDesc('原 icons_adjust 片段：收紧文件树缩进。')

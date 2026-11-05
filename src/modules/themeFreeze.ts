@@ -102,7 +102,8 @@ export class ThemeFreezeModule {
     if (snap.css) {
       this.styleEl = document.createElement('style');
       this.styleEl.id = 'lg-style-settings-freeze';
-      this.styleEl.textContent = snap.css;
+      // 它的选择器是 body.css-settings-manager，冻结后 body 上没有这个 class 了，换成琉璃的 lg-on
+      this.styleEl.textContent = snap.css.replace(/\.css-settings-manager\b/g, '.lg-on');
       // 放在 head 最前面，和原来 Style Settings 一样优先级最低，琉璃的变量仍然压得住
       document.head.prepend(this.styleEl);
     }

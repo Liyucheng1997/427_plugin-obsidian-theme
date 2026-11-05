@@ -53,11 +53,11 @@ body.lg-solid .modal-bg {
 
 /* 按钮：主要 = 蓝色胶囊；次要 = 灰底胶囊；都不要阴影 */
 body.lg-solid button.mod-cta { box-shadow: none !important; }
-body.lg-solid button:not(.mod-cta):not(.clickable-icon) {
+body.lg-solid button:not(.mod-cta):not(.mod-warning):not(.clickable-icon) {
   background: var(--lg-fill) !important;
   box-shadow: none !important;
 }
-body.lg-solid button:not(.mod-cta):not(.clickable-icon):hover { filter: brightness(.97); }
+body.lg-solid button:not(.mod-cta):not(.mod-warning):not(.clickable-icon):hover { filter: brightness(.97); }
 
 /* 文件树：悬停淡灰，选中浅蓝底 + 蓝字 */
 body.lg-solid .nav-files-container .tree-item-self.is-active {

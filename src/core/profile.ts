@@ -162,6 +162,14 @@ function block(p: Preset, t: Tokens, s: LiuliSettings, dark: boolean): string {
     v['--bold-weight'] = '600';
     for (let i = 1; i <= 6; i++) v[`--h${i}-weight`] = '600';
   }
+  // 标题层级收敛：正文是主角。H1 才用主题色；H2 只比正文大一档、字重 600
+  Object.assign(v, {
+    '--h1-size': '1.5em', '--h2-size': '1.22em', '--h3-size': '1.1em',
+    '--h4-size': '1.03em', '--h5-size': '1em', '--h6-size': '.95em',
+    '--h1-weight': '700', '--h2-weight': '600', '--h3-weight': '600',
+    '--h4-weight': '600', '--h5-weight': '600', '--h6-weight': '600',
+    '--lg-danger': dark ? '#FF453A' : '#E0443E',
+  });
   t.headings.forEach((c, i) => {
     v[`--h${i + 1}-color`] = c;
     v[`--print-h${i + 1}-color`] = c;

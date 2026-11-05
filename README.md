@@ -28,6 +28,19 @@ python scripts/install-vaults.py   # 首次安装 / 重配四个库（会先备�
 
 源码在 `src/`，样式按文件拆在 `styles/`，构建时合并成 `styles.css`。设计过程和取舍见 [DESIGN.md](DESIGN.md)。
 
+## 发布与自动更新
+
+```bash
+npm run release                    # 补丁版本 +1
+npm run release -- minor -m "提交说明"
+```
+
+一条命令完成：升版本号 → 构建 → 部署到本机四个库 → 提交并推送 → 发布 GitHub Release（附 `main.js`、`manifest.json`、`styles.css`）。
+
+其他设备（以及没部署到的库）里的琉璃启动 15 秒后会查 GitHub Releases（每 6 小时最多一次），
+发现新版本就下载到自己的插件目录，点通知里的「立即生效」即可，不用重启。
+也可以在命令面板运行「琉璃 Liquid Glass: 检查更新」，或在设置 →「更新」里手动检查、关闭自动更新。
+
 ## 手动安装
 
 从 Releases 下载 `main.js`、`manifest.json`、`styles.css`，放进库的 `.obsidian/plugins/liuli-liquid-glass/`，在「第三方插件」里启用。

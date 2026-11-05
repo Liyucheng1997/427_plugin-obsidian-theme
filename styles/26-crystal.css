@@ -110,7 +110,7 @@ body.lg-crystal :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-s
 body.theme-dark.lg-crystal :is(.menu-item.selected, .menu-item:hover, .suggestion-item.is-selected) { background: rgba(255, 255, 255, .08) !important; }
 
 /* —— 按钮：玻璃胶囊；主按钮是正文黑胶囊（网站的“深色实心胶囊”），不用彩色 —— */
-body.lg-crystal button:not(.mod-cta):not(.clickable-icon) {
+body.lg-crystal button:not(.mod-cta):not(.mod-warning):not(.clickable-icon) {
   border-radius: 99px !important;
   background: var(--lg-chip-bg) !important;
   border: 1px solid var(--lg-card-edge) !important;
